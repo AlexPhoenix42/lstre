@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# ========================================================================
+# alias lstre="~/bin/lstre.sh"
+# ========================================================================
+
 lstre() {
   # defaults
   dir="."
@@ -8,52 +12,6 @@ lstre() {
   hide_dotfiles=false
   icons=false
   help_mode=0
-
-#  # parse args
-#  while [[ $# -gt 0 ]]; do
-#    case "$1" in
-#      -h|--help)
-#
-#        cat <<EOF
-#Usage: lstre [TARGET] [EXCLUDE1 EXCLUDE2 ...] [OPTIONS]
-#
-#Display a tree view of files and directories, excluding specified folders.
-#Folders: yellow | Files: green
-#
-#Options:
-#  --depth N         Limit recursion to N levels (default: unlimited)
-#  --hide-dotfiles   Hide dotfiles and dot-directories at all levels
-#  --icons           Show 📁 for folders and 📄 for files
-#  -h, --help        Show this help
-#
-#Arguments:
-#  TARGET     Directory to scan (default: .)
-#  EXCLUDE... Folders to prune (default: node_modules target .git)
-#EOF
-#        return 0
-#        ;;
-#      --depth)
-#        depth_args="-maxdepth $2"
-#        shift 2
-#        ;;
-#      --hide-dotfiles)
-#        hide_dotfiles=true
-#        shift
-#        ;;
-#      --icons)
-#        icons=true
-#        shift
-#        ;;
-#      *)
-#        if [[ "$dir" == "." ]]; then
-#          dir="$1"
-#        else
-#          excludes+=("$1")
-#        fi
-#        shift
-#        ;;
-#    esac
-#  done
 
  # parse args
   while [[ $# -gt 0 ]]; do
@@ -178,7 +136,3 @@ lstre() {
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
   lstre "$@"
 fi
-
-# ========================================================================
-# alias lstre="~/bin/lstre.sh"
-# ========================================================================
