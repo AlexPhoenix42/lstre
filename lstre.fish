@@ -4,6 +4,9 @@ function lstre
     or return
 
     if set -q _flag_help
+        echo
+        echo -e "\e]8;;https://github.com/AlexPhoenix42\e\\Powered by $BLUEgithub.com/AlexPhoenix42$RESET 🌈🚀\e]8;;\e\\"
+        echo
         echo "Usage: lstre [TARGET] [EXCLUDE1 EXCLUDE2 ...]"
         echo ""
         echo "Display a tree view of files and directories, excluding specified folders."
