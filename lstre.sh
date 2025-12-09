@@ -1,6 +1,3 @@
-# ========================================================================
-# alias lstre="~/bin/lstre.sh"
-# ========================================================================
 #!/usr/bin/env bash
 
 lstre() {
@@ -10,28 +7,60 @@ lstre() {
   depth_args=""
   hide_dotfiles=false
   icons=false
+  help_mode=0
 
-  # parse args
+#  # parse args
+#  while [[ $# -gt 0 ]]; do
+#    case "$1" in
+#      -h|--help)
+#
+#        cat <<EOF
+#Usage: lstre [TARGET] [EXCLUDE1 EXCLUDE2 ...] [OPTIONS]
+#
+#Display a tree view of files and directories, excluding specified folders.
+#Folders: yellow | Files: green
+#
+#Options:
+#  --depth N         Limit recursion to N levels (default: unlimited)
+#  --hide-dotfiles   Hide dotfiles and dot-directories at all levels
+#  --icons           Show 📁 for folders and 📄 for files
+#  -h, --help        Show this help
+#
+#Arguments:
+#  TARGET     Directory to scan (default: .)
+#  EXCLUDE... Folders to prune (default: node_modules target .git)
+#EOF
+#        return 0
+#        ;;
+#      --depth)
+#        depth_args="-maxdepth $2"
+#        shift 2
+#        ;;
+#      --hide-dotfiles)
+#        hide_dotfiles=true
+#        shift
+#        ;;
+#      --icons)
+#        icons=true
+#        shift
+#        ;;
+#      *)
+#        if [[ "$dir" == "." ]]; then
+#          dir="$1"
+#        else
+#          excludes+=("$1")
+#        fi
+#        shift
+#        ;;
+#    esac
+#  done
+
+ # parse args
   while [[ $# -gt 0 ]]; do
     case "$1" in
       -h|--help)
-        cat <<EOF
-Usage: lstre [TARGET] [EXCLUDE1 EXCLUDE2 ...] [OPTIONS]
-
-Display a tree view of files and directories, excluding specified folders.
-Folders: yellow | Files: green
-
-Options:
-  --depth N         Limit recursion to N levels (default: unlimited)
-  --hide-dotfiles   Hide dotfiles and dot-directories at all levels
-  --icons           Show 📁 for folders and 📄 for files
-  -h, --help        Show this help
-
-Arguments:
-  TARGET     Directory to scan (default: .)
-  EXCLUDE... Folders to prune (default: node_modules target .git)
-EOF
-        return 0
+        help_mode=1
+        shift
         ;;
       --depth)
         depth_args="-maxdepth $2"
@@ -55,6 +84,37 @@ EOF
         ;;
     esac
   done
+
+  # Help mode
+  if [[ $help_mode -eq 1 ]]; then
+    echo
+    echo -e "\e]8;;https://github.com/AlexPhoenix42\e\\Powered by $BLUEgithub.com/AlexPhoenix42$RESET 🌈🚀\e]8;;\e\\"
+    echo
+    echo "Usage: lstre [TARGET] [EXCLUDE1 EXCLUDE2 ...] [OPTIONS]"
+    echo ""
+    echo "Display a tree view of files and directories, excluding specified folders."
+    echo "Folders: yellow | Files: green"
+    echo ""
+    echo "Options:"
+    echo "  --depth N         Limit recursion to N levels (default: unlimited)"
+    echo "  --hide-dotfiles   Hide dotfiles and dot-directories at all levels"
+    echo "  --icons           Show 📁 for folders and 📄 for files"
+    echo "  -h, --help        Show this help message"
+    echo ""
+    echo "Arguments:"
+    echo "  TARGET     Directory to scan (default: .)"
+    echo "  EXCLUDE... Folders to prune (default: node_modules target .git)"
+    echo ""
+    echo "Examples:"
+    echo "  lstre                               # Current dir, default excludes"
+    echo "  lstre .. build dist                 # Parent dir, also exclude build and dist"
+    echo "  lstre /path/to/project --depth 2    # Limit to 2 levels"
+    echo "  lstre . --hide-dotfiles             # Skip dotfiles/dirs"
+    echo "  lstre . --icons                     # Add icons to output"
+    echo "  lstre -h                            # This help"
+    exit 0
+  fi
+
 
   # build filters
   top_filter_args=()
@@ -118,3 +178,7 @@ EOF
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
   lstre "$@"
 fi
+
+# ========================================================================
+# alias lstre="~/bin/lstre.sh"
+# ========================================================================
